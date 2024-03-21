@@ -9,44 +9,35 @@ import org.springframework.stereotype.Component;
 import com.capone.decrypto.service.ComitenteService;
 
 @Component
-public class ComitenteRoute extends RouteBuilder {
+public class DecryptoRouter extends RouteBuilder {
 
     private final Environment env;
 
-    public ComitenteRoute(Environment env) {
+    public DecryptoRouter(Environment env) {
         this.env = env;
     }
 
     @Override
     public void configure() throws Exception {
         restConfiguration()
+            .component("servlet")
+            .port(env.getProperty("server.port", "8080"))
             .contextPath(env.getProperty("camel.component.servlet.mapping.contextPath", "/api/*"))
             .apiContextPath("/api-doc")
             .apiProperty("api.title", "API REST. CRUD operations for: Comitente, Mercado, Pais.")
-            .apiProperty("api.version", "1.0")
+            .apiProperty("api.version", "1.0.0")
             .apiProperty("cors", "true")
             .apiContextRouteId("doc-api")
-            .port(env.getProperty("server.port", "8080"))
             .bindingMode(RestBindingMode.json);
 
         rest("/comitente").description("Comitente route")
-            .post("/")
-                .consumes(MediaType.APPLICATION_JSON_VALUE)
-                .produces(MediaType.APPLICATION_JSON_VALUE)
-                    .to("{{route.createComitente}}")
-            .get("/{comitenteId}")
-                .produces(MediaType.APPLICATION_JSON_VALUE)
-                    .to("{{route.retrieveComitenteById}}")
-            .get("/")
-                .produces(MediaType.APPLICATION_JSON_VALUE)
-                    .to("{{route.retrieveAllComitentes}}")
-            .put("/{comitenteId}")
-                .consumes(MediaType.APPLICATION_JSON_VALUE)
-                .produces(MediaType.APPLICATION_JSON_VALUE)
-                    .to("{{route.updateComitente}}")
-            .delete("/{comitenteId}")
-                .produces(MediaType.APPLICATION_JSON_VALUE)
-                    .to("{{route.deleteComitente}}");
+            .consumes(MediaType.APPLICATION_JSON_VALUE)
+            .produces(MediaType.APPLICATION_JSON_VALUE)
+            .post("/").to("{{route.createComitente}}")
+            .get("/{comitenteId}").to("{{route.retrieveComitenteById}}")
+            .get("/").to("{{route.retrieveAllComitentes}}")
+            .put("/{comitenteId}").to("{{route.updateComitente}}")
+            .delete("/{comitenteId}").to("{{route.deleteComitente}}");
 
         from("{{route.retrieveComitenteById}}")
             .log("Received header : ${header.comitenteId}")
