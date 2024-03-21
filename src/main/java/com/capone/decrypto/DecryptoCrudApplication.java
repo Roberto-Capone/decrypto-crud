@@ -4,10 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApiRestCrudApplication {
+public class DecryptoCrudApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ApiRestCrudApplication.class, args);
+        SpringApplication.run(DecryptoCrudApplication.class, args);
     }
-
 }
