@@ -1,4 +1,4 @@
-# Decrypto Market Code Assestment
+# Decrypto Market Code Assesstment
 ## Getting Started
 This application was designed to be built & run using:
 * Java 17
